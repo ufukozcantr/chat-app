@@ -13,7 +13,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 http://www.chat-app.ml/
 
-Login this site and go to http://www.chat-app.ml/chat
+This site register and login after you go to http://www.chat-app.ml/chat
 
 You can write message
 
