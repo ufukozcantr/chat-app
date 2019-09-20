@@ -11,7 +11,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Demo
 
-[chat-app.ml] (http://www.chat-app.ml/)
+http://www.chat-app.ml/
 
 Login this site and go to http://www.chat-app.ml/chat
 
