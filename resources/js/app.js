@@ -23,6 +23,7 @@ Vue.use(VueChatScroll)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('message', require('./components/Message.vue').default);
+Vue.component('private-chat', require('./components/PrivateChat.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -46,11 +47,11 @@ const app = new Vue({
     methods: {
         send(){
             if(this.message.length != 0){
-            
+
                 //this.chat.user.push('you')
                 //this.chat.color.push('success')
                 //this.chat.time.push(this.getTime())
-                
+
                 axios.post('/send', {
                     message: this.message
                   })

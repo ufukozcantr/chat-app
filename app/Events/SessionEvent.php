@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\User;
+use App\Models\Session;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,33 +11,24 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-/**
- * Class ChatEvent
- * @package App\Events
- */
-class ChatEvent implements ShouldBroadcast
+class SessionEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * @var
-     */
-    public $message;
-    /**
-     * @var User
-     */
-    public $user;
+    public $session;
+    public $session_by;
 
     /**
      * Create a new event instance.
      *
-     * @param $message
-     * @param User $user
+     * @param Session $session
+     * @param $session_by
      */
-    public function __construct($message, User $user)
+    public function __construct($session, $session_by)
     {
-        $this->message = $message;
-        $this->user = $user;
+        $this->session = $session;
+        $this->session_by = $session_by;
+        $this->dontBroadcastToCurrentUser();
     }
 
     /**
@@ -47,6 +38,6 @@ class ChatEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat');
+        return new Channel('chat');
     }
 }

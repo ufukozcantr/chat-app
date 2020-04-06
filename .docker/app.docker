@@ -1,0 +1,24 @@
+FROM php:7.1.3-fpm
+
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install -y mysql-client
+RUN apt-get install -y git
+RUN apt-get install -y zip
+RUN apt-get install -y unzip
+RUN apt-get install -y zlib1g-dev
+RUN apt-get install -y libpng-dev
+RUN apt-get install -y libjpeg-dev
+#RUN apt-get install -y supervisor
+RUN apt-get install -y libjpeg62-turbo-dev
+RUN apt-get install -y libfreetype6-dev
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+
+RUN docker-php-ext-install \
+	pdo \
+	pdo_mysql \
+    gd \
+    zip
+
+ADD ./.docker/upload.ini /usr/local/etc/php/conf.d/upload.ini
+WORKDIR /var/www

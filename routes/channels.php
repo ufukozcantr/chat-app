@@ -11,10 +11,19 @@
 |
 */
 
+use App\Models\Session;
+
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('chat', function () {
-    return true;
+Broadcast::channel('chat', function ($user) {
+    return $user;
+});
+
+Broadcast::channel('chat.{session}', function ($user, Session $session) {
+    if($session->user1_id == $user->id || $session->user2_id == $user->id){
+        return true;
+    }
+    return false;
 });
