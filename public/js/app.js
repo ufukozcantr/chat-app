@@ -1773,6 +1773,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "MessageComponent",
   data: function data() {
@@ -1782,17 +1791,17 @@ __webpack_require__.r(__webpack_exports__);
       isTyping: false
     };
   },
-  props: ['user'],
+  props: ['user', 'authUser'],
   computed: {
     can: function can() {
-      return this.user.session.blocked_by == auth.id;
+      return this.user.session.blocked_by == this.authUser.id;
     }
   },
   watch: {
     message: function message(value) {
       if (value) {
         Echo["private"]("chat.".concat(this.user.session.id)).whisper('typing', {
-          name: auth.name
+          name: this.authUser.name
         });
       }
     }
@@ -1832,7 +1841,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.user.session.block = true;
       axios.post("session/".concat(this.user.session.id, "/block")).then(function (res) {
-        _this2.user.session.blocked_by = auth.id;
+        _this2.user.session.blocked_by = _this2.authUser.id;
       });
     },
     unblock: function unblock() {
@@ -1929,9 +1938,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PrivateChat",
+  props: ['authUser'],
   components: {
     MessageComponent: _MessageComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -47675,7 +47686,7 @@ var render = function() {
   return _c("div", { staticClass: "card card-default chat-box" }, [
     _c("div", { staticClass: "card-header" }, [
       _c("b", { class: { "text-danger": _vm.user.session.block } }, [
-        _vm._v("\n            " + _vm._s(_vm.user.name) + " "),
+        _vm._v("\n                " + _vm._s(_vm.user.name) + " "),
         _vm.isTyping ? _c("small", [_vm._v("is typing . . .")]) : _vm._e(),
         _vm._v(" "),
         _vm.user.session.block ? _c("span", [_vm._v("(Blocked)")]) : _vm._e()
@@ -47776,11 +47787,29 @@ var render = function() {
           },
           [
             _vm._v(
-              "\n            " + _vm._s(message.message) + "\n            "
+              "\n                " +
+                _vm._s(message.message) +
+                "\n                "
             ),
             _c("br"),
             _vm._v(" "),
-            _c("small", [_c("i", [_vm._v(_vm._s(message.read_at))])])
+            _c("small", [
+              _c("i", {
+                staticClass: "fa fa-check",
+                class: {
+                  "text-right": message.type == 0,
+                  "text-success": message.read_at != null
+                }
+              }),
+              _vm._v(" "),
+              _c("i", {
+                staticClass: "fa fa-check",
+                class: {
+                  "text-right": message.type == 0,
+                  "text-success": message.read_at != null
+                }
+              })
+            ])
           ]
         )
       }),
@@ -47799,7 +47828,7 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "form-group" }, [
+        _c("div", { staticClass: "input-group mb-3" }, [
           _c("input", {
             directives: [
               {
@@ -47824,7 +47853,9 @@ var render = function() {
                 _vm.message = $event.target.value
               }
             }
-          })
+          }),
+          _vm._v(" "),
+          _vm._m(1)
         ])
       ]
     )
@@ -47847,6 +47878,18 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "fa fa-ellipsis-v text-right" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Send")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -47935,7 +47978,7 @@ var render = function() {
                 [
                   user.session.open
                     ? _c("message-component", {
-                        attrs: { user: user },
+                        attrs: { user: user, authUser: _vm.authUser },
                         on: {
                           close: function($event) {
                             return _vm.close(user)

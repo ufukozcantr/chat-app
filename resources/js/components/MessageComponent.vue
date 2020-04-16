@@ -26,13 +26,22 @@
             <p class="card-text" :class="{'text-right': message.type == 0, 'text-success': message.read_at != null}" v-for="message in messages">
                 {{message.message}}
                 <br>
-                <small><i>{{message.read_at}}</i></small>
+                <small>
+                    <i class="fa fa-check" :class="{'text-right': message.type == 0, 'text-success': message.read_at != null}"></i>
+                    <i class="fa fa-check" :class="{'text-right': message.type == 0, 'text-success': message.read_at != null}"></i>
+                </small>
             </p>
         </div>
         <form class="card-footer" @submit.prevent="send">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Write message" :disabled="user.session.block" v-model="message">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Write message" :disabled="user.session.block"  v-model="message"/>
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit">Send</button>
+                </div>
             </div>
+<!--            <div class="form-group">-->
+<!--                <input type="text" class="form-control" placeholder="Write message" :disabled="user.session.block" v-model="message">-->
+<!--            </div>-->
         </form>
     </div>
 </template>
@@ -47,17 +56,17 @@
                 isTyping: false
             }
         },
-        props: ['user'],
+        props: ['user', 'authUser'],
         computed: {
             can() {
-                return this.user.session.blocked_by == auth.id
+                return this.user.session.blocked_by == this.authUser.id
             }
         },
         watch: {
             message(value) {
                 if(value){
                     Echo.private(`chat.${this.user.session.id}`).whisper('typing', {
-                        name: auth.name
+                        name: this.authUser.name
                     })
                 }
             }
@@ -88,7 +97,7 @@
             block(){
                 this.user.session.block = true
                 axios.post(`session/${this.user.session.id}/block`).then(res => {
-                    this.user.session.blocked_by = auth.id
+                    this.user.session.blocked_by = this.authUser.id
                 })
             },
             unblock(){

@@ -31,3 +31,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/users', 'HomeController@users');
 Route::post('/session/create', 'SessionController@create');
+
+Route::get('/webhooks', 'HomeController@getWebhooks');
+Route::post('/webhooks', 'HomeController@postWebhooks');

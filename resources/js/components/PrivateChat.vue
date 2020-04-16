@@ -23,6 +23,7 @@
                         v-if="user.session.open"
                         @close="close(user)"
                         :user="user"
+                        :authUser="authUser"
                     ></message-component>
                 </span>
             </div>
@@ -34,6 +35,7 @@
     import MessageComponent from "./MessageComponent";
     export default {
         name: "PrivateChat",
+        props: ['authUser'],
         components: {MessageComponent},
         data() {
             return {

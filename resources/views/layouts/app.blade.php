@@ -18,8 +18,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <script> window.auth = {!! auth()->user() !!} </script>
+    <link rel="stylesheet" href="{{asset('dist/css/app.css')}}">
 
     <style>
         .listgroup{
@@ -30,6 +29,7 @@
     </style>
 </head>
 <body>
+    <vue-widget></vue-widget>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -88,5 +88,6 @@
     </div>
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('dist/js/app.js') }}"></script>
 </body>
 </html>
