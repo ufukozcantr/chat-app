@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -34,7 +35,7 @@ class HomeController extends Controller
 
     public function getWebhooks(){
 
-        return view('webhooks');
+//        return view('webhooks');
 
         // environmental variable must be set
         $app_secret = 'a2b15f23df0d08f82a8f';
@@ -50,6 +51,7 @@ class HomeController extends Controller
             // decode as associative array
             $payload = json_decode( $body, true );
             foreach($payload['events'] as &$event) {
+                Log::info('event - '.$event);
                 $data[] = $event;
             }
             dd($data);
@@ -62,7 +64,7 @@ class HomeController extends Controller
 
     public function postWebhooks(){
 
-        return view('webhooks');
+//        return view('webhooks');
 
         // environmental variable must be set
         $app_secret = 'a2b15f23df0d08f82a8f';
@@ -78,6 +80,7 @@ class HomeController extends Controller
             // decode as associative array
             $payload = json_decode( $body, true );
             foreach($payload['events'] as &$event) {
+                Log::info('event - '.$event);
                 $data[] = $event;
             }
             dd($data);
