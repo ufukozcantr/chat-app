@@ -33,6 +33,9 @@ class HomeController extends Controller
     }
 
     public function getWebhooks(){
+
+        return view('webhooks');
+
         // environmental variable must be set
         $app_secret = 'a2b15f23df0d08f82a8f';
 
@@ -58,6 +61,9 @@ class HomeController extends Controller
     }
 
     public function postWebhooks(){
+
+        return view('webhooks');
+
         // environmental variable must be set
         $app_secret = 'a2b15f23df0d08f82a8f';
 
